@@ -21,3 +21,10 @@ COMMENT = "This is our second unit"
 # DROP WAREHOUSE
 
 DROP WAREHOUSE WAREHOUSE_SECOUND 
+
+# Create first table
+create or replace TABLE FIRST_DB.FIRST_SCHEMA.FIRST_TABLE (
+	TEXTS VARCHAR(16777216),
+	NUMBERS NUMBER(38,0)
+)
+COMMENT='this is my first table';
