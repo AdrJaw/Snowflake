@@ -86,6 +86,17 @@ COPY INTO COPY_DB.PUBLIC.ORDERS
     pattern='.*Order.*'
     SIZE_LIMIT=20000;
 
+file	status	rows_parsed	rows_loaded	error_limit	errors_seen	first_error	first_error_line	first_error_character	first_error_column_name
+s3://snowflakebucket-copyoption/size/Orders.csv	LOADED	1500	1500	1	0				
 
+//Load data using copy command
+COPY INTO COPY_DB.PUBLIC.ORDERS
+    FROM @aws_stage_copy
+    file_format= (type = csv field_delimiter=',' skip_header=1)
+    pattern='.*Order.*'
+    SIZE_LIMIT=60000;
 
+file	status	rows_parsed	rows_loaded	error_limit	errors_seen	first_error	first_error_line	first_error_character	first_error_column_name
+s3://snowflakebucket-copyoption/size/Orders2.csv	LOADED	1500	1500	1	0				
+s3://snowflakebucket-copyoption/size/Orders.csv	LOADED	1500	1500	1	0				
 
