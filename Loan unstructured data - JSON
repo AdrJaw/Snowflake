@@ -1,4 +1,4 @@
--- 1. inster data
+---- 1. inster data
 
 // First step: Load Raw JSON
 
@@ -22,7 +22,7 @@ COPY INTO OUR_FIRST_DB.PUBLIC.JSON_RAW
 
 SELECT * FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
 
--- 2. Data Parsing
+---- 2. Data Parsing
 
 // Second step: Parse & Analyse Raw JSON
 
@@ -48,12 +48,11 @@ SELECT
 FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
 
 
-
    // Handling nested data
 
 SELECT RAW_FILE:job as job  FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
 
--- 3. Handling nested data
+---- 3. Handling nested data
 
 SELECT RAW_FILE:job as job  FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
 
@@ -111,7 +110,8 @@ SELECT
 FROM OUR_FIRST_DB.PUBLIC.JSON_RAW
 ORDER BY id;
 
- --4. Managing Nesting Order
+
+ ---- 4. Managing Nesting Order
 
  SELECT
     RAW_FILE:spoken_languages as spoken_languages
@@ -129,7 +129,6 @@ SELECT
      RAW_FILE:first_name::STRING as first_name,
      array_size(RAW_FILE:spoken_languages) as spoken_languages
 FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
-
 
 
 SELECT
@@ -179,4 +178,32 @@ SELECT
    f.value:level::STRING as Level_spoken
 FROM OUR_FIRST_DB.PUBLIC.JSON_RAW, table(flatten(RAW_FILE:spoken_languages)) f;
 
--- 5.
+
+---- 5. INSERT Data
+
+// Option 1: CREATE TABLE AS
+
+CREATE OR REPLACE TABLE Languages AS
+SELECT
+        RAW_FILE:first_name::STRING as First_name,
+        f.value:language::STRING as First_language,
+        f.value:level::STRING as Level_spoken
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW, table(flatten(RAW_FILE:spoken_languages)) f;
+
+SELECT * FROM Languages;
+
+truncate table languages;
+
+// Option 2: INSERT INTO
+
+INSERT INTO Languages
+SELECT
+        RAW_FILE:first_name::STRING as First_name,
+        f.value:language::STRING as First_language,
+        f.value:level::STRING as Level_spoken
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW, table(flatten(RAW_FILE:spoken_languages)) f;
+
+
+SELECT * FROM Languages;
+
+
