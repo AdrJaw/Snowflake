@@ -203,7 +203,12 @@ SELECT
         f.value:level::STRING as Level_spoken
 FROM OUR_FIRST_DB.PUBLIC.JSON_RAW, table(flatten(RAW_FILE:spoken_languages)) f;
 
-
 SELECT * FROM Languages;
+
+
+----6. Quert to file PARQUET
+
+
+
 
 
